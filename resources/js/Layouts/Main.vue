@@ -7,7 +7,7 @@
         </nav>
     </header>
 
-    <main class="p-6">
+    <main class="p-6 mx-auto max-w-screen-lg">
         <slot />
     </main>
 </template>
