@@ -1,45 +1,41 @@
 <script setup>
 import Container from "../../Components/Container.vue";
 import Title from "../../Components/Title.vue";
-import TextLink from "../../Components/TextLink.vue";
 import InputField from "../../Components/InputField.vue";
 import PrimaryBtn from "../../Components/PrimaryBtn.vue";
 import ErrorMessages from "../../Components/ErrorMessages.vue";
-import SessionMessages from '../../Components/SessionMessages.vue';
-import CheckBox from '../../Components/CheckBox.vue';
 import { useForm } from "@inertiajs/vue3";
 
-const form = useForm({
-    email: "",
-    password: "",
-    remember: null,
+const props = defineProps({
+    token: String,
+    email: String,
 });
 
-defineProps({
-    status: String,
+
+const form = useForm({
+    token: props.token,
+    email: props.email,
+    password: "",
+    password_confirmation: "",
 });
 
 const submit = () => {
-    form.post(route("login"), {
-        onFinish: () => form.reset("password"),
+    form.post(route("password.update"), {
+        onFinish: () => form.reset("password", "password_confirmation"),
     });
 };
 </script>
 
 <template>
-    <Head title="- Login"/>
+    <Head title="- Reset Password"/>
     <Container class="w-1/2">
         <div class="mb-8 text-center">
-            <Title>Login to your account</Title>
-            <p>
-                Need an account?
-                <TextLink routeName="register" label="Register" />
-            </p>
+            <Title>Enter your new password</Title>
+
         </div>
 
         <!-- Errors messages -->
         <ErrorMessages :errors="form.errors"/>
-        <SessionMessages :status="status" />
 
         <form @submit.prevent="submit" class="space-y-6">
 
@@ -56,15 +52,14 @@ const submit = () => {
                 v-model="form.password"
             />
 
-            <div class="flex items-center justify-between">
-                <CheckBox name="remember" v-model="form.remember">
-                    Remember me
-                </CheckBox>
-                <TextLink routeName="password.request" label="Forgot Password?"/>
+            <InputField
+                label="Confirm Password"
+                type="password"
+                icon="key"
+                v-model="form.password_confirmation"
+            />
 
-            </div>
-
-            <PrimaryBtn :disabled="form.processing">Login</PrimaryBtn>
+            <PrimaryBtn :disabled="form.processing">Reset Password</PrimaryBtn>
         </form>
     </Container>
 </template>
