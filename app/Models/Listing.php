@@ -19,34 +19,26 @@ class Listing extends Model
         'approved',
     ];
 
-    /**
-     * Get the user that owns the listing.
-     */
     public function user()
     {
         return $this->belongsTo(User::class);
     }
 
-    /**
-     * Scope a query to only include approved listings.
-     */
     public function scopeFilter($query, array $filters)
     {
         if ($filters['search'] ?? false) {
-            $query->where(function($q){
-                $q
-                ->where('title', 'like', '%'. request('search') .'%')
-                ->orWhere('desc', 'like', '%'. request('search') .'%');
+            $query->where(function ($q) {
+                $q->where('title', 'like', '%' . request('search') . '%')
+                    ->orWhere('desc', 'like', '%' . request('search') . '%');
             });
         }
 
-        if($filters['user_id'] ?? false) {
+        if ($filters['user_id'] ?? false) {
             $query->where('user_id', request('user_id'));
-
         }
 
         if($filters['tag'] ?? false) {
-            $query->where('tags', 'like', '%'. request('tag') .'%');
+            $query->where('tags', 'like', '%' . request('tag') . '%');
         }
     }
 }
