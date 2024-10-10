@@ -118,7 +118,7 @@ class ListingController extends Controller
 
         $listing->update($fields);
 
-        return redirect()->route('dashboard')->with('status', 'Listing updated successfully.');
+        return redirect()->route('home')->with('status', 'Listing updated successfully.');
     }
 
     /**
@@ -126,6 +126,12 @@ class ListingController extends Controller
      */
     public function destroy(Listing $listing)
     {
-        //
+        if ($listing->image) {
+            Storage::disk('public')->delete($listing->image);
+        }
+
+        $listing->delete();
+
+        return redirect()->route('home')->with('status', 'Listing deleted successfully.');
     }
 }
