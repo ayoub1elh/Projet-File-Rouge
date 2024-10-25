@@ -3,11 +3,11 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
-use Inertia\Inertia;
 use App\Models\User;
 use Illuminate\Auth\Events\Registered;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Inertia\Inertia;
 
 class RegisterController extends Controller
 {
@@ -19,19 +19,17 @@ class RegisterController extends Controller
     public function store(Request $request)
     {
         $credentials = $request->validate([
-            'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'lowercase', 'email', 'max:255', 'unique:users'],
-            'password' => ['required', 'string', 'min:3', 'confirmed'],
+            'name' => 'required|max:255',
+            'email' => 'required|lowercase|email|max:255',
+            'password' => 'required|confirmed|min:3'
         ]);
 
         $user = User::create($credentials);
 
-        // Send verification email
         event(new Registered($user));
 
         Auth::login($user);
 
-        return redirect()->route('home');
-
+        return redirect()->route('dashboard');
     }
 }

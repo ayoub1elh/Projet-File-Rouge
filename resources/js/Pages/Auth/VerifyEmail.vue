@@ -2,7 +2,7 @@
 import { useForm } from "@inertiajs/vue3";
 import Container from "../../Components/Container.vue";
 import PrimaryBtn from "../../Components/PrimaryBtn.vue";
-import SessionMessages from '../../Components/SessionMessages.vue';
+import SessionMessages from "../../Components/SessionMessages.vue";
 
 const form = useForm({});
 
@@ -28,14 +28,12 @@ const submit = () => {
             </p>
         </div>
 
-        <SessionMessages :status="status" />
+        <SessionMessages :status="status"/>
 
         <form @submit.prevent="submit">
-            <PrimaryBtn :disabled="form.processing">
-                Resend Verification Email
-            </PrimaryBtn>
+            <PrimaryBtn :disabled="form.processing"
+                >Resend Verification Email</PrimaryBtn
+            >
         </form>
-
-
     </Container>
 </template>

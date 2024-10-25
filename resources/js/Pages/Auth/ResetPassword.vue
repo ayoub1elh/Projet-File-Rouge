@@ -11,7 +11,6 @@ const props = defineProps({
     email: String,
 });
 
-
 const form = useForm({
     token: props.token,
     email: props.email,
@@ -27,23 +26,17 @@ const submit = () => {
 </script>
 
 <template>
-    <Head title="- Reset Password"/>
+    <Head title="- Reset Password" />
     <Container class="w-1/2">
         <div class="mb-8 text-center">
             <Title>Enter your new password</Title>
-
         </div>
 
         <!-- Errors messages -->
-        <ErrorMessages :errors="form.errors"/>
+        <ErrorMessages :errors="form.errors" />
 
         <form @submit.prevent="submit" class="space-y-6">
-
-            <InputField
-                label="Email"
-                icon="at"
-                v-model="form.email"
-            />
+            <InputField label="Email" icon="at" v-model="form.email" />
 
             <InputField
                 label="Password"
@@ -59,7 +52,9 @@ const submit = () => {
                 v-model="form.password_confirmation"
             />
 
-            <PrimaryBtn :disabled="form.processing">Reset Password</PrimaryBtn>
+            <PrimaryBtn :disabled="form.processing">
+                Reset Password
+            </PrimaryBtn>
         </form>
     </Container>
 </template>

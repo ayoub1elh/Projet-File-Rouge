@@ -4,33 +4,33 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use Inertia\Inertia;
 use Illuminate\Support\Facades\Auth;
+use Inertia\Inertia;
 
 class AuthenticateController extends Controller
 {
     public function create()
     {
         return Inertia::render('Auth/Login', [
-            'status' => session('status'),
+            'status' => session('status')
         ]);
     }
 
     public function store(Request $request)
     {
         $credentials = $request->validate([
-            'email' => ['required', 'lowercase', 'email', 'max:255'],
-            'password' => ['required', 'string', 'min:3'],
+            'email' => 'required|email',
+            'password' => 'required'
         ]);
 
         if (Auth::attempt($credentials, $request->boolean('remember'))) {
             $request->session()->regenerate();
 
-            return redirect()->route('home');
+            return redirect()->intended('dashboard');
         }
 
         return back()->withErrors([
-            'email' => 'The provided credentials do not match our records.',
+            'email' => 'The provided credentials do not match our records.'
         ])->onlyInput('email');
     }
 
@@ -39,9 +39,8 @@ class AuthenticateController extends Controller
         Auth::logout();
 
         $request->session()->invalidate();
-
         $request->session()->regenerateToken();
 
-        return redirect()->route('login');
+        return redirect()->route('home');
     }
 }
