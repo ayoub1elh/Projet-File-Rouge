@@ -45,11 +45,13 @@ class User extends Authenticatable implements MustVerifyEmail
         ];
     }
 
-    /**
-     * Get the listings for the user.
-     */
     public function listings()
     {
         return $this->hasMany(Listing::class);
+    }
+
+    public function isAdmin()
+    {
+        return $this->role === 'admin';
     }
 }
